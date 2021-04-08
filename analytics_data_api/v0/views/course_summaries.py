@@ -116,7 +116,7 @@ class CourseSummariesView(APIListView):
         except ValueError as err:
             return HttpResponseBadRequest(content='Error in recent_date: {}\n'.format(err.message))
 
-        response = super(CourseSummariesView, self).post(request, *args, **kwargs)
+        response = super(CourseSummariesView, self).get(request, *args, **kwargs)
         return response
 
     def verify_recent_date(self, recent):
