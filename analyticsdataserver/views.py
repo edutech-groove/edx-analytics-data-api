@@ -3,10 +3,12 @@ import logging
 from django.conf import settings
 from django.db import connections
 from django.http import HttpResponse
+from django.template import loader
 from rest_framework import permissions, schemas
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from rest_framework.views import exception_handler
 from rest_framework.views import APIView
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
@@ -37,7 +39,7 @@ class SwaggerSchemaView(APIView):
     """
     Renders the swagger schema for the documentation regardless of permissions.
     """
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     renderer_classes = [
         OpenAPIRenderer,
         SwaggerUIRenderer
@@ -46,6 +48,16 @@ class SwaggerSchemaView(APIView):
     def get(self, _request):
         generator = schemas.SchemaGenerator(title='Analytics API')
         return Response(generator.get_schema())
+
+    @staticmethod
+    def my_exception_handler(exc, context):
+        response = exception_handler(exc, context)
+        if response.status_code >= 400:
+            return HttpResponse(loader.get_template('403.html').render(context), content_type='text/html', status=403)
+        return response
+
+    def get_exception_handler(self):
+        return self.my_exception_handler
 
 
 class StatusView(APIView):
