@@ -9,16 +9,10 @@
     <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="{{ 'images/logo.png'|fec_url }}"/>
     
-    <title>eduTech Frontend Components</title>
+    <title>Analytics API</title>
     <link href="{{ 'stylesheets/accessForbidden.min.css'|fec_url }}" rel="stylesheet">
     <script type="application/json" id="edt-page-metadata">
-      {
-        "wildcard": "local.groove.education",
-        "isAuthenticated": false,
-        "applicationName": "Groove eLearning",
-        "footerFacebookUrl": "https://www.facebook.com/groovetechnologycom",
-        "footerLinkedInUrl": "https://www.linkedin.com/company/groove-technology"
-      }
+      {{ enhenced_theme|escape_json }}
     </script>
   </head>
   <body>
