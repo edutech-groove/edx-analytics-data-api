@@ -53,7 +53,7 @@ class SwaggerSchemaView(APIView):
     def my_exception_handler(exc, context):
         response = exception_handler(exc, context)
         if response.status_code >= 400:
-            context['enhenced_theme'] = settings.ENHENCED_THEME
+            context['enhenced_theme'] = settings.ENHENCED_THEME if hasattr(settings, 'ENHENCED_THEME') else {},
             return HttpResponse(loader.get_template('403.html').render(context), content_type='text/html', status=403)
         return response
 

@@ -25,6 +25,6 @@ def fec_url(url):
     """
     get url from input then adding /static as prefix and _v=$$$ as suffix
     """
-    if settings.FEC_VERSION is not None:
+    if hasattr(settings, 'FEC_VERSION') and settings.FEC_VERSION is not None:
         return "/static/fec/{}?_v={}".format(url, settings.FEC_VERSION.replace(".", ""))
     return url
