@@ -2,6 +2,7 @@
 Template tags and helper functions for escaping script tag.
 """
 import json
+import re
 
 from django import template
 from django.conf import settings
@@ -26,5 +27,6 @@ def fec_url(url):
     get url from input then adding /static as prefix and _v=$$$ as suffix
     """
     if hasattr(settings, 'FEC_VERSION') and settings.FEC_VERSION is not None:
-        return "/static/fec/{}?_v={}".format(url, settings.FEC_VERSION.replace(".", ""))
+        fec_version = re.sub('[a-zA-Z.]', '', settings.FEC_VERSION)
+        return "/static/fec/{}/{}?_v={}".format(settings.FEC_CLIENT, url, fec_version)
     return url
